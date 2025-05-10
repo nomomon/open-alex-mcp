@@ -19,9 +19,11 @@ open-alex-mcp/
 │
 ├── openalex/                  # App code (modularized)
 │   ├── __init__.py
-│   ├── tools.py               # Tool definitions for each OpenAlex API
-│   ├── client.py              # HTTP client for OpenAlex API
-│   └── schemas.py             # Pydantic models for tool parameters/results
+│   ├── authors_tools.py       # Author-related OpenAlex tools
+│   ├── institutions_tools.py  # Institution-related OpenAlex tools
+│   ├── works_tools.py         # Work-related OpenAlex tools
+│   ├── tools.py               # Tool registration and shared logic
+│   ├── utils.py               # Shared utility functions
 │
 ├── tests/                     # Unit/integration tests
 │   ├── __init__.py
@@ -51,9 +53,9 @@ python open-alex-mcp.py
 Use a FastMCP-compatible client, or see the [FastMCP Client documentation](.github/documentation/fastmcp.docs.md).
 
 ## Adding New Tools
-- Define new tools in `openalex/tools.py`.
+- Define new tools in the appropriate file in `openalex/` (e.g., `authors_tools.py`, `works_tools.py`, etc.).
 - Use clear docstrings and type annotations for each tool.
-- For new OpenAlex endpoints, add a function and register it as a tool.
+- For new OpenAlex endpoints, add a function and register it as a tool in the relevant module.
 
 ## Testing
 - Place tests in `tests/`.
