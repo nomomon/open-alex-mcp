@@ -12,7 +12,7 @@ A minimal, production-like MCP server exposing the OpenAlex API as tools for LLM
 ```
 open-alex-mcp/
 │
-├── server.py                  # Main entrypoint for the MCP server
+├── open-alex-mcp.py                  # Main entrypoint for the MCP server
 ├── requirements.txt           # Python dependencies
 ├── README.md                  # Project documentation
 ├── .gitignore
@@ -43,7 +43,7 @@ pip install -r requirements.txt
 2. **Run the server:**
 
 ```sh
-python server.py
+python open-alex-mcp.py
 ```
 
 3. **Interact with the server:**
