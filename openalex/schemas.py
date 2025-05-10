@@ -19,7 +19,7 @@ class WorksSearchQuery(BaseModel):
 
 class AuthorQuery(BaseModel):
     author_id: str = Field(...,
-                           description="OpenAlex Author ID (e.g., 'A1234567890').")
+                           description="OpenAlex Author ID (e.g., 'A5023888391').")
 
 
 class InstitutionQuery(BaseModel):
