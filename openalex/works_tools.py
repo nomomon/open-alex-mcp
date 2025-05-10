@@ -1,7 +1,7 @@
 from fastmcp import FastMCP, Context
 from typing import Any
 from pyalex import Works
-from .tools import _parse_filter, _parse_sort
+from .utils import _parse_filter, _parse_sort
 
 
 def register_works_tools(mcp: FastMCP):
