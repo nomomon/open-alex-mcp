@@ -12,9 +12,7 @@ def register_works_tools(mcp: FastMCP):
         annotations={"title": "Get Work by ID",
                      "readOnlyHint": True, "openWorldHint": True}
     )
-    async def get_work(query: dict, ctx: Context) -> Any:
-        work_id = query["work_id"]
-        select = query.get("select")
+    async def get_work(work_id: str, select: str = None, ctx: Context = None) -> Any:
         w = Works()
         if select:
             w = w.select(select)
@@ -27,18 +25,20 @@ def register_works_tools(mcp: FastMCP):
         annotations={"title": "Search Works",
                      "readOnlyHint": True, "openWorldHint": True}
     )
-    async def search_works(query: dict, ctx: Context) -> Any:
-        filter_ = query.get("filter")
-        search = query.get("search")
-        sort = query.get("sort")
-        select = query.get("select")
-        per_page = query.get("per_page", 10)
-        page = query.get("page", 1)
-        sample = query.get("sample")
-        group_by = query.get("group_by")
+    async def search_works(
+        filter: str = None,
+        search: str = None,
+        sort: str = None,
+        select: str = None,
+        per_page: int = 10,
+        page: int = 1,
+        sample: int = None,
+        group_by: str = None,
+        ctx: Context = None
+    ) -> Any:
         w = Works()
-        if filter_:
-            w = w.filter(**_parse_filter(filter_))
+        if filter:
+            w = w.filter(**_parse_filter(filter))
         if search:
             w = w.search(search)
         if sort:
@@ -58,10 +58,8 @@ def register_works_tools(mcp: FastMCP):
         annotations={"title": "Autocomplete Works",
                      "readOnlyHint": True, "openWorldHint": True}
     )
-    async def autocomplete_works(query: dict, ctx: Context) -> Any:
-        text = query["text"]
-        filter_ = query.get("filter")
+    async def autocomplete_works(text: str, filter: str = None, ctx: Context = None) -> Any:
         w = Works()
-        if filter_:
-            w = w.filter(**_parse_filter(filter_))
+        if filter:
+            w = w.filter(**_parse_filter(filter))
         return w.autocomplete(text)

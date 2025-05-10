@@ -12,9 +12,7 @@ def register_institutions_tools(mcp: FastMCP):
         annotations={"title": "Get Institution by ID",
                      "readOnlyHint": True, "openWorldHint": True}
     )
-    async def get_institution(query: dict, ctx: Context) -> Any:
-        institution_id = query["institution_id"]
-        select = query.get("select")
+    async def get_institution(institution_id: str, select: str = None, ctx: Context = None) -> Any:
         i = Institutions()
         if select:
             i = i.select(select)
@@ -27,18 +25,20 @@ def register_institutions_tools(mcp: FastMCP):
         annotations={"title": "Search Institutions",
                      "readOnlyHint": True, "openWorldHint": True}
     )
-    async def search_institutions(query: dict, ctx: Context) -> Any:
-        filter_ = query.get("filter")
-        search = query.get("search")
-        sort = query.get("sort")
-        select = query.get("select")
-        per_page = query.get("per_page", 10)
-        page = query.get("page", 1)
-        sample = query.get("sample")
-        group_by = query.get("group_by")
+    async def search_institutions(
+        filter: str = None,
+        search: str = None,
+        sort: str = None,
+        select: str = None,
+        per_page: int = 10,
+        page: int = 1,
+        sample: int = None,
+        group_by: str = None,
+        ctx: Context = None
+    ) -> Any:
         i = Institutions()
-        if filter_:
-            i = i.filter(**_parse_filter(filter_))
+        if filter:
+            i = i.filter(**_parse_filter(filter))
         if search:
             i = i.search(search)
         if sort:
@@ -58,10 +58,8 @@ def register_institutions_tools(mcp: FastMCP):
         annotations={"title": "Autocomplete Institutions",
                      "readOnlyHint": True, "openWorldHint": True}
     )
-    async def autocomplete_institutions(query: dict, ctx: Context) -> Any:
-        text = query["text"]
-        filter_ = query.get("filter")
+    async def autocomplete_institutions(text: str, filter: str = None, ctx: Context = None) -> Any:
         i = Institutions()
-        if filter_:
-            i = i.filter(**_parse_filter(filter_))
+        if filter:
+            i = i.filter(**_parse_filter(filter))
         return i.autocomplete(text)
