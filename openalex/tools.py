@@ -1,90 +1,38 @@
-from fastmcp import FastMCP, Context
-from openalex.client import OpenAlexClient
-from openalex.schemas import WorkQuery, WorksSearchQuery, AuthorQuery, InstitutionQuery
-from typing import Any
-
-# Register all OpenAlex tools to the MCP server
+from fastmcp import FastMCP
+from .works_tools import register_works_tools
+from .authors_tools import register_authors_tools
+from .institutions_tools import register_institutions_tools
 
 
 def register_tools(mcp: FastMCP):
-    """Register OpenAlex API tools with clear descriptions."""
+    """Register OpenAlex tools using pyalex."""
+    register_works_tools(mcp)
+    register_authors_tools(mcp)
+    register_institutions_tools(mcp)
 
-    @mcp.tool(
-        name="get_work",
-        description="Retrieve a single work (article, book, etc.) from OpenAlex by its ID or DOI. Use this to fetch detailed metadata about a publication.",
-        tags={"works", "metadata", "openalex"},
-        annotations={"title": "Get Work by ID",
-                     "readOnlyHint": True, "openWorldHint": True}
-    )
-    async def get_work(query: WorkQuery, ctx: Context) -> Any:
-        """Fetch a work from OpenAlex by its OpenAlex ID or DOI."""
-        client = OpenAlexClient()
-        try:
-            result = await client.get(f"works/{query.work_id}")
-        finally:
-            await client.close()
-        return result
 
-    @mcp.tool(
-        name="search_works",
-        description="Search for works (articles, books, etc.) in OpenAlex using filters or text search. Use the 'search' parameter for general text search (across title, abstract, and fulltext), or the 'filter' parameter for field-specific queries. Returns a list of matching works. Always includes a mailto for polite pool access.",
-        tags={"works", "search", "openalex"},
-        annotations={"title": "Search Works",
-                     "readOnlyHint": True, "openWorldHint": True}
-    )
-    async def search_works(query: WorksSearchQuery, ctx: Context) -> Any:
-        """
-        Search for works in OpenAlex using filters, text search, and sorting.
-        - For general text search, use the 'search' parameter (e.g., search='microbiome').
-        - For field-specific queries, use the 'filter' parameter (e.g., filter='institutions.id:...').
-        - Always includes a mailto for polite pool access.
-        """
-        client = OpenAlexClient()
+def _parse_filter(filter_str):
+    # Very basic parser for key:value filter strings
+    # e.g. "publication_year:2020" => {"publication_year": 2020}
+    if not filter_str:
+        return {}
+    parts = filter_str.split(":", 1)
+    if len(parts) == 2:
+        key, value = parts
         try:
-            # Use a real contact email in production
-            params = {"mailto": "openalex-mcp@example.com"}
-            # If the filter is a general text search, use the 'search' param (not as a filter)
-            if query.filter and query.filter.startswith("search:"):
-                params["search"] = query.filter[len("search:"):].strip()
-            elif query.filter:
-                params["filter"] = query.filter
-            if query.sort:
-                params["sort"] = query.sort
-            params["per-page"] = query.per_page or 10
-            params["page"] = query.page or 1
-            result = await client.get("works", params=params)
-        finally:
-            await client.close()
-        return result
+            value = int(value)
+        except Exception:
+            pass
+        return {key: value}
+    return {}
 
-    @mcp.tool(
-        name="get_author",
-        description="Retrieve an author's profile and metadata from OpenAlex by their ID.",
-        tags={"authors", "metadata", "openalex"},
-        annotations={"title": "Get Author by ID",
-                     "readOnlyHint": True, "openWorldHint": True}
-    )
-    async def get_author(query: AuthorQuery, ctx: Context) -> Any:
-        """Fetch an author from OpenAlex by their OpenAlex ID."""
-        client = OpenAlexClient()
-        try:
-            result = await client.get(f"authors/{query.author_id}")
-        finally:
-            await client.close()
-        return result
 
-    @mcp.tool(
-        name="get_institution",
-        description="Retrieve an institution's profile and metadata from OpenAlex by its ID.",
-        tags={"institutions", "metadata", "openalex"},
-        annotations={"title": "Get Institution by ID",
-                     "readOnlyHint": True, "openWorldHint": True}
-    )
-    async def get_institution(query: InstitutionQuery, ctx: Context) -> Any:
-        """Fetch an institution from OpenAlex by its OpenAlex ID."""
-        client = OpenAlexClient()
-        try:
-            result = await client.get(f"institutions/{query.institution_id}")
-        finally:
-            await client.close()
-        return result
+def _parse_sort(sort_str):
+    # e.g. "publication_date:desc" => {"publication_date": "desc"}
+    if not sort_str:
+        return {}
+    parts = sort_str.split(":", 1)
+    if len(parts) == 2:
+        key, value = parts
+        return {key: value}
+    return {}
