@@ -1,6 +1,6 @@
 # OpenAlex MCP
 
-A minimal, production-like MCP server exposing the OpenAlex API as tools for LLMs and AI agents, using FastMCP.
+A minimal, production-like MCP server exposing the OpenAlex API as tools for LLMs and AI agents, using the [MCP Python SDK](https://github.com/anthropics/model-context-protocol/tree/main/python).
 
 ## Features
 - Exposes OpenAlex API endpoints (works, authors, institutions, etc.) as MCP tools
@@ -38,19 +38,27 @@ open-alex-mcp/
 
 1. **Install dependencies:**
 
-```sh
+```zsh
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. **Run the server:**
+2. **Run the server (development mode):**
 
-```sh
-python open-alex-mcp.py
+```zsh
+mcp dev open-alex-mcp.py
+```
+
+Or, to run in production mode:
+
+```zsh
+mcp run open-alex-mcp.py
 ```
 
 3. **Interact with the server:**
 
-Use a FastMCP-compatible client, or see the [FastMCP Client documentation](.github/documentation/fastmcp.docs.md).
+Use an MCP-compatible client, or see the [MCP Client documentation](https://github.com/anthropics/model-context-protocol/tree/main/python/docs/client.md).
 
 ## Adding New Tools
 - Define new tools in the appropriate file in `openalex/` (e.g., `authors_tools.py`, `works_tools.py`, etc.).
@@ -67,7 +75,7 @@ pytest
 
 ## References
 - [OpenAlex API Docs](https://docs.openalex.org/)
-- [FastMCP Documentation](https://gofastmcp.com/)
+- [MCP Python SDK Documentation](https://github.com/anthropics/model-context-protocol/tree/main/python)
 
 ---
 

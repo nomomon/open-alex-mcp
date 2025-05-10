@@ -1,4 +1,4 @@
-from fastmcp import FastMCP, Context
+from mcp.server.fastmcp import FastMCP, Context
 from typing import Any
 from pyalex import Works
 from .utils import _parse_filter, _parse_sort
@@ -16,7 +16,10 @@ def register_works_tools(mcp: FastMCP):
         w = Works()
         if select:
             w = w.select(select)
-        return w[work_id]
+        return {
+            "title": w[work_id]["title"],
+            "abstract": w[work_id]["abstract"],
+        }
 
     @mcp.tool(
         name="search_works",
@@ -49,7 +52,14 @@ def register_works_tools(mcp: FastMCP):
             w = w.sample(sample)
         if group_by:
             w = w.group_by(group_by)
-        return w.get(per_page=per_page, page=page)
+        results = w.get(per_page=per_page, page=page)
+        return [
+            {
+                "title": result["title"],
+                "abstract": result["abstract"],
+            }
+            for result in results
+        ]
 
     @mcp.tool(
         name="autocomplete_works",

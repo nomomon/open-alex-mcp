@@ -1,10 +1,9 @@
 import os
 import pyalex
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 from .works_tools import register_works_tools
 from .authors_tools import register_authors_tools
 from .institutions_tools import register_institutions_tools
-from .utils import _parse_filter, _parse_sort
 
 
 def register_tools(mcp: FastMCP):

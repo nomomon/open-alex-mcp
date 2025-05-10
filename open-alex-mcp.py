@@ -1,5 +1,5 @@
 # server.py
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 from openalex.tools import register_tools
 
 mcp = FastMCP("OpenAlex MCP Server")

@@ -1,4 +1,4 @@
-from fastmcp import FastMCP, Context
+from mcp.server.fastmcp import FastMCP, Context
 from typing import Any
 from pyalex import Authors
 from .utils import _parse_filter, _parse_sort
