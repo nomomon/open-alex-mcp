@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "OpenAlex MCP": {
+            "command": "python",
+            "args": [
+                "-m",
+                "open-alex-mcp"
+            ]
+        }
+    }
+}
