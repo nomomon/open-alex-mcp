@@ -27,17 +27,26 @@ def register_tools(mcp: FastMCP):
 
     @mcp.tool(
         name="search_works",
-        description="Search for works (articles, books, etc.) in OpenAlex using filters (e.g., by institution, year, etc.). Returns a list of matching works.",
+        description="Search for works (articles, books, etc.) in OpenAlex using filters or text search. Use the 'search' parameter for general text search (across title, abstract, and fulltext), or the 'filter' parameter for field-specific queries. Returns a list of matching works. Always includes a mailto for polite pool access.",
         tags={"works", "search", "openalex"},
         annotations={"title": "Search Works",
                      "readOnlyHint": True, "openWorldHint": True}
     )
     async def search_works(query: WorksSearchQuery, ctx: Context) -> Any:
-        """Search for works in OpenAlex using filters and sorting."""
+        """
+        Search for works in OpenAlex using filters, text search, and sorting.
+        - For general text search, use the 'search' parameter (e.g., search='microbiome').
+        - For field-specific queries, use the 'filter' parameter (e.g., filter='institutions.id:...').
+        - Always includes a mailto for polite pool access.
+        """
         client = OpenAlexClient()
         try:
-            params = {}
-            if query.filter:
+            # Use a real contact email in production
+            params = {"mailto": "openalex-mcp@example.com"}
+            # If the filter is a general text search, use the 'search' param (not as a filter)
+            if query.filter and query.filter.startswith("search:"):
+                params["search"] = query.filter[len("search:"):].strip()
+            elif query.filter:
                 params["filter"] = query.filter
             if query.sort:
                 params["sort"] = query.sort
