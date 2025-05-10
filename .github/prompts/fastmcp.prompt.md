@@ -1,0 +1,1 @@
+When working with FastMCP, use the documentation in the `.github/documentation/fastmcp.docs.md` file as a refernce.

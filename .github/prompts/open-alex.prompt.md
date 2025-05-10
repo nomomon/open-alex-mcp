@@ -1,0 +1,1 @@
+When working with OpenAlex, use the documentation in the `.github/documentation/open-alex.docs.md` file as a refernce.
