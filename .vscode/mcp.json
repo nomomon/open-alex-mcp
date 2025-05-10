@@ -1,11 +1,14 @@
 {
     "servers": {
         "OpenAlex MCP": {
-            "command": "python",
+            "command": "/Users/nomomon/Desktop/Projects/open-alex-mcp/.venv/bin/python3",
             "args": [
                 "-m",
                 "open-alex-mcp"
-            ]
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
         }
     }
 }
