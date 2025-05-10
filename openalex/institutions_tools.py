@@ -8,7 +8,6 @@ def register_institutions_tools(mcp: FastMCP):
     @mcp.tool(
         name="get_institution",
         description="Retrieve an institution's profile and metadata from OpenAlex by its ID.",
-        tags={"institutions", "metadata", "openalex"},
         annotations={"title": "Get Institution by ID",
                      "readOnlyHint": True, "openWorldHint": True}
     )
@@ -21,7 +20,6 @@ def register_institutions_tools(mcp: FastMCP):
     @mcp.tool(
         name="search_institutions",
         description="Search for institutions in OpenAlex using filters, search, sort, select, sample, group_by, and paging.",
-        tags={"institutions", "search", "openalex"},
         annotations={"title": "Search Institutions",
                      "readOnlyHint": True, "openWorldHint": True}
     )
@@ -54,7 +52,6 @@ def register_institutions_tools(mcp: FastMCP):
     @mcp.tool(
         name="autocomplete_institutions",
         description="Autocomplete institutions by a query string, with optional filters.",
-        tags={"institutions", "autocomplete", "openalex"},
         annotations={"title": "Autocomplete Institutions",
                      "readOnlyHint": True, "openWorldHint": True}
     )

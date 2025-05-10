@@ -8,7 +8,6 @@ def register_works_tools(mcp: FastMCP):
     @mcp.tool(
         name="get_work",
         description="Retrieve a single work (article, book, etc.) from OpenAlex by its ID or DOI.",
-        tags={"works", "metadata", "openalex"},
         annotations={"title": "Get Work by ID",
                      "readOnlyHint": True, "openWorldHint": True}
     )
@@ -24,7 +23,6 @@ def register_works_tools(mcp: FastMCP):
     @mcp.tool(
         name="search_works",
         description="Search for works (articles, books, etc.) in OpenAlex using filters, search, sort, select, sample, group_by, and paging.",
-        tags={"works", "search", "openalex"},
         annotations={"title": "Search Works",
                      "readOnlyHint": True, "openWorldHint": True}
     )
@@ -64,7 +62,6 @@ def register_works_tools(mcp: FastMCP):
     @mcp.tool(
         name="autocomplete_works",
         description="Autocomplete works by a query string, with optional filters.",
-        tags={"works", "autocomplete", "openalex"},
         annotations={"title": "Autocomplete Works",
                      "readOnlyHint": True, "openWorldHint": True}
     )

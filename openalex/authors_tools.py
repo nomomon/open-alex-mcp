@@ -8,7 +8,6 @@ def register_authors_tools(mcp: FastMCP):
     @mcp.tool(
         name="get_author",
         description="Retrieve an author's profile and metadata from OpenAlex by their ID.",
-        tags={"authors", "metadata", "openalex"},
         annotations={"title": "Get Author by ID",
                      "readOnlyHint": True, "openWorldHint": True}
     )
@@ -21,7 +20,6 @@ def register_authors_tools(mcp: FastMCP):
     @mcp.tool(
         name="search_authors",
         description="Search for authors in OpenAlex using filters, search, sort, select, sample, group_by, and paging.",
-        tags={"authors", "search", "openalex"},
         annotations={"title": "Search Authors",
                      "readOnlyHint": True, "openWorldHint": True}
     )
@@ -54,7 +52,6 @@ def register_authors_tools(mcp: FastMCP):
     @mcp.tool(
         name="autocomplete_authors",
         description="Autocomplete authors by a query string, with optional filters.",
-        tags={"authors", "autocomplete", "openalex"},
         annotations={"title": "Autocomplete Authors",
                      "readOnlyHint": True, "openWorldHint": True}
     )
